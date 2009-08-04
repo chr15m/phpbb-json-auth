@@ -2,7 +2,9 @@ Generic JSON based authenticator for phpbb3
 Copyright Chris McCormick, 2009
 chris@mccormick.cx
 
-This plugin allows phpbb to authenticate against an external site using a generic JSON based interface. Essentially, you share the session cookie that your site uses with phpbb and then provide a page which returns JSON data saying whether the currently logged in user is authenticated or not.
+GPLv3 licensed, see the file COPYING for details.
+
+This plugin allows phpbb to authenticate against your site using a generic JSON based interface. Essentially, you share the session cookie that your site uses with phpbb and then provide a page which returns JSON data saying whether the currently logged in user is authenticated or not.
 
 I used some previous code I had for authenticating in this way against Django, and also had a look at the "django-login-for-phpbb" project on Google Code.
 
