@@ -33,10 +33,14 @@ Usage
 1. Put auth_json.php inside your phpBB installation, under includes/auth. This
 can be a symlink to the file in this project.
 
-2. Customise login_body.html to point the login and signup links at the right
+2. Make sure your site has a JSON authentication info URL like the one in the
+django-example-view.py
+
+3. Log into phpBB as administrator and fill in the fields for json auth in the
+authentication panel.
+
+4. Customise login_body.html to point the login and signup links at the right
 place, and include it in your style templates. This will redirect a normal user
 to your login page.
 
-3. Make sure your site has a JSON authentication info URL like the one in the
-django-example-view.py
 
