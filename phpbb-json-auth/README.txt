@@ -43,4 +43,3 @@ authentication panel.
 place, and include it in your style templates. This will redirect a normal user
 to your login page.
 
-

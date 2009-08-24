@@ -21,6 +21,7 @@
  * json_auth_url
  * json_auth_logout_url
  * json_auth_login_page
+ * json_auth_shared_cookie
  * json_auth_cookie
  * 
  */
@@ -61,7 +62,7 @@ function jsonauth_do_request($post_data=array())
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
     curl_setopt($ch, CURLOPT_COOKIEJAR, tempnam("/tmp", "json_phpbb_cookie_"));
-    curl_setopt($ch, CURLOPT_COOKIE, $config['json_auth_cookie'] . "=" . $_COOKIE[$config['json_auth_cookie']]);
+    curl_setopt($ch, CURLOPT_COOKIE, $config['json_auth_cookie'] . "=" . $_COOKIE[$config['json_auth_shared_cookie']]);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
@@ -156,7 +157,7 @@ function login_json(&$username, &$password)
 function autologin_json()
 {
     global $db, $config;
-    if (!isset($_COOKIE[$config['json_auth_cookie']]))
+    if (!isset($_COOKIE[$config['json_auth_shared_cookie']]))
     {
         return array();
     }
@@ -270,7 +271,7 @@ function validate_session_json(&$user)
 {
     global $config;
     
-    if (!isset($_COOKIE[$config['json_auth_cookie']]))
+    if (!isset($_COOKIE[$config['json_auth_shared_cookie']]))
     {
         return false;
     }
@@ -295,6 +296,10 @@ function acp_json(&$new)
         $new['json_auth_cookie'] = 'sessionid';
     }
     
+    if(!$new['json_auth_shared_cookie'] or empty($new['json_auth_shared_cookie'])) {
+        $new['json_auth_shared_cookie'] = 'sessionid';
+    }
+    
     if(!$new['json_auth_logout_url'] or empty($new['json_auth_logout_url'])) {
         $new['json_auth_logout_url'] = 'http://localhost:8000/auth/logout/?next=http://localhost/forum/';
     }
@@ -309,7 +314,11 @@ function acp_json(&$new)
         <dd><input type="text" id="json_auth_url" size="40" name="config[json_auth_url]" value="' . $new['json_auth_url'] . '" /></dd>
     </dl>
     <dl>
-        <dt><label for="json_auth_cookie">Shared cookie name:</label><br /><span>Name of the shared cookie on the remote system which stores the user session.</span></dt>
+        <dt><label for="json_auth_shared_cookie">Shared cookie name:</label><br /><span>Name of the cookie which is shared between the remote system and phpbb.</span></dt>
+        <dd><input type="text" id="json_auth_cookie" size="40" name="config[json_auth_shared_cookie]" value="' . $new['json_auth_shared_cookie'] . '" /></dd>
+    </dl>
+    <dl>
+        <dt><label for="json_auth_cookie">Remote cookie name:</label><br /><span>Name of the cookie on the remote system (can be the same as the shared cookie name).</span></dt>
         <dd><input type="text" id="json_auth_cookie" size="40" name="config[json_auth_cookie]" value="' . $new['json_auth_cookie'] . '" /></dd>
     </dl>
     <dl>
@@ -325,7 +334,7 @@ function acp_json(&$new)
     // These are fields required in the config table
     return array(
         'tpl'       => $tpl,
-        'config'    => array('json_auth_url', 'json_auth_cookie', 'json_auth_logout_url', 'json_auth_login_page')
+        'config'    => array('json_auth_url', 'json_auth_cookie', 'json_auth_shared_cookie', 'json_auth_logout_url', 'json_auth_login_page')
     );
 }
 
