@@ -1,0 +1,3 @@
+This plugin allows phpBB to authenticate against your site using a generic JSON based interface. Essentially, you share the session cookie that your site uses with phpbb and then provide a page which returns JSON data saying whether the currently logged in user is authenticated or not. An example for authenticating phpBB against a Django site is provided.
+
+Check the [README.txt](http://code.google.com/p/phpbb-json-auth/source/browse/phpbb-json-auth/README.txt) for more details.
